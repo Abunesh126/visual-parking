@@ -1,312 +1,623 @@
-# 🚗 Automatic Mall Car Parking System with Computer Vision
+# 🚗 Automatic Mall Car Parking System
 
-A comprehensive AI-powered parking management system designed for mall environments, featuring real-time vehicle detection, license plate recognition, and smart slot assignment using computer vision technologies.
+> An AI-powered automatic parking system for malls that uses computer vision to detect vehicles, assign slots, generate entry/exit receipts, monitor occupancy, manage fines, and automate payment through a connected admin dashboard.
 
-## 🏗️ System Architecture
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18+-61DAFB.svg)](https://reactjs.org/)
+[![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-purple.svg)](https://docs.ultralytics.com/)
 
-### **Backend: FastAPI + Computer Vision**
-- **Framework**: FastAPI with async support
-- **Database**: MySQL with SQLAlchemy ORM
-- **Computer Vision**: YOLOv8 + EasyOCR
-- **Real-time Processing**: OpenCV with multi-camera support
+---
 
-### **Frontend: React Dashboard**
-- **Framework**: React 18 with Material-UI
-- **State Management**: React Query for real-time data
-- **Charts**: Recharts for analytics visualization
-- **Real-time Updates**: Auto-refresh every 3-5 seconds
+## 📋 Table of Contents
 
-## 🎯 Key Features
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [System Objectives](#system-objectives)
+- [Tech Stack](#tech-stack)
+- [System Architecture](#system-architecture)
+- [Process Flow](#process-flow)
+- [Database Schema](#database-schema)
+- [Project Structure](#project-structure)
+- [Installation & Setup](#installation--setup)
+- [API Endpoints](#api-endpoints)
+- [Development Roadmap](#development-roadmap)
+- [Expected Accuracy](#expected-accuracy)
+- [Contributing](#contributing)
 
-### **Computer Vision Pipeline**
-- ✅ **Vehicle Detection**: YOLOv8 model for car/bike classification
-- ✅ **License Plate Recognition**: EasyOCR for OCR processing
-- ✅ **Slot Occupancy Detection**: Real-time monitoring of parking spaces
-- ✅ **Multi-camera Support**: 16 cameras (2 entry/exit + 14 indoor)
+---
 
-### **Smart Parking Management**
-- ✅ **Automatic Slot Assignment**: Intelligent allocation based on vehicle type
-- ✅ **Real-time Availability**: Live parking status updates
-- ✅ **Entry/Exit Tracking**: Automated gate management
-- ✅ **Duration Monitoring**: Track parking time and violations
+## 🎯 Overview
 
-### **Mall-Specific Layout**
-- ✅ **Floor A**: 20 car slots + 16 bike slots (7 cameras)
-- ✅ **Floor B**: 20 car slots + 16 bike slots (7 cameras)  
-- ✅ **Entry/Exit**: Dedicated cameras for gate monitoring
-- ✅ **Coverage**: Every 4 car slots and 8 bike slots have 1 camera
+The **Automatic Mall Car Parking System** is a comprehensive solution that automates the entire parking management process—from vehicle entry to exit—while providing real-time insights to mall administration. The system leverages computer vision technology to detect vehicles, recognize license plates, monitor parking slots, and automate toll gate operations.
 
-### **Dashboard Features**
-- ✅ **Real-time Monitoring**: Live parking status and occupancy
-- ✅ **Floor Views**: Interactive slot visualization
-- ✅ **Camera Management**: Monitor all 16 cameras
-- ✅ **Vehicle Tracking**: Search and track individual vehicles
-- ✅ **Analytics**: Hourly/daily trends and performance metrics
-- ✅ **System Settings**: Configure CV parameters and system rules
+### Project Scope
 
-## 🚀 Quick Start Guide
+- **Parking Capacity**: 2 floors (Floor A & Floor B)
+  - Floor A: 20 car slots + 16 bike slots
+  - Floor B: 20 car slots + 16 bike slots
+  - **Total**: 40 car slots + 32 bike slots
 
-### **Prerequisites**
-```bash
-# System Requirements
-- Python 3.8+
-- Node.js 16+ 
-- MySQL 8.0+
-- CUDA-compatible GPU (recommended for CV processing)
+- **Camera Setup**:
+  - 1 Entry camera
+  - 1 Exit camera
+  - 14 Indoor cameras (10 for car slots, 4 for bike slots)
 
-# For Windows
-- Visual Studio Build Tools (for some Python packages)
+---
+
+## ✨ Key Features
+
+### Core Functionality
+
+✅ **Automated Vehicle Entry**
+- Real-time vehicle type detection (Car/Bike)
+- License plate recognition (ANPR)
+- Automatic slot assignment
+- Digital parking receipt generation
+- Toll gate automation
+
+✅ **Smart Slot Monitoring**
+- Real-time occupancy detection
+- Misparking identification
+- Dynamic slot reassignment
+- License plate verification
+
+✅ **Automated Exit & Billing**
+- Vehicle identification via plate recognition
+- Parking duration calculation
+- Automated billing system
+- Payment processing
+- Toll gate control
+
+✅ **Admin Dashboard**
+- Live camera feeds
+- Real-time slot occupancy
+- Vehicle tracking
+- Revenue analytics
+- Misparking alerts
+- Historical data & reports
+
+---
+
+## 🎯 System Objectives
+
+The system satisfies **5 out of 6** camera-based vehicle analytics objectives:
+
+| # | Objective | Status | Implementation |
+|---|-----------|--------|----------------|
+| 1 | **Detect vehicles** | ✅ Satisfied | Entry/exit/indoor cameras with YOLOv8 |
+| 2 | **Track each vehicle** | ✅ Satisfied | License plate recognition across lifecycle |
+| 3 | **Display insights in dashboard** | ✅ Satisfied | Real-time admin dashboard with analytics |
+| 4 | **Identify vehicle type** | ✅ Satisfied | YOLOv8 classification (car/bike) |
+| 5 | **Measure dwell time** | ✅ Satisfied | Entry-to-exit duration tracking |
+| 6 | **Forecast traffic patterns** | ⏳ Future | Predictive analytics module (v2+) |
+
+---
+
+## 🛠 Tech Stack
+
+### Computer Vision & AI
+- **Framework**: PyTorch
+- **Object Detection**: Ultralytics YOLOv8 (yolov8n/yolov8s)
+- **OCR**: EasyOCR / Tesseract
+- **Image Processing**: OpenCV
+- **Numerical Computing**: NumPy
+
+### Backend Services
+- **API Framework**: FastAPI
+- **Database**: MySQL
+- **ORM**: SQLAlchemy
+- **Caching**: Redis (optional)
+- **HTTP Client**: httpx/requests
+
+### Frontend Dashboard
+- **Framework**: React (TypeScript)
+- **Build Tool**: Vite
+- **UI Library**: Material-UI (MUI)
+- **Charting**: Recharts / Chart.js
+- **State Management**: React Query
+
+### Deployment & Infrastructure
+- **Containerization**: Docker
+- **Reverse Proxy**: Nginx / Traefik
+- **Camera Protocol**: RTSP streams
+- **IoT Integration**: MQTT / HTTP for toll gates
+
+---
+
+## 🏗 System Architecture
+
+The system consists of three main services:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     PARKING SYSTEM                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────┐      ┌──────────────┐    ┌────────────┐ │
+│  │  CV Service  │─────▶│ Backend API  │◀───│ Dashboard  │ │
+│  │   (Python)   │      │  (FastAPI)   │    │  (React)   │ │
+│  └──────────────┘      └──────────────┘    └────────────┘ │
+│         │                     │                            │
+│         │                     │                            │
+│    ┌────▼─────┐         ┌────▼────┐                       │
+│    │ Cameras  │         │  MySQL  │                       │
+│    │  (RTSP)  │         │Database │                       │
+│    └──────────┘         └─────────┘                       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### **1. Database Setup**
+### Service Communication Flow
+
+1. **CV Service** → Consumes RTSP camera streams
+2. **CV Service** → POSTs detection data to Backend API
+3. **Backend API** → Manages database, business logic, slot allocation
+4. **Dashboard** → Fetches data from Backend API via REST
+5. **Backend API** → Controls toll gate via IoT interface
+
+---
+
+## 🔄 Process Flow
+
+### 1️⃣ Vehicle Entry
+
+```
+Camera Detection → YOLOv8 Detection → License Plate OCR
+                                            ↓
+                                    Backend API Call
+                                            ↓
+                        Slot Allocation ← Database Check
+                                            ↓
+                                  Receipt Generation
+                                            ↓
+                                   Toll Gate Opens
+```
+
+**JSON Payload (Entry Event)**:
+```json
+{
+  "camera_code": "ENTRY_1",
+  "plate_number": "TN09AB1234",
+  "vehicle_type": "CAR",
+  "confidence": 0.93,
+  "captured_at": "2025-12-12T03:58:00Z"
+}
+```
+
+### 2️⃣ Slot Monitoring
+
+```
+Indoor Camera → YOLOv8 Detection → ROI Overlap Check
+                                          ↓
+                              Multi-frame Persistence
+                                          ↓
+                                 Occupancy Update
+                                          ↓
+                              Misparking Detection
+```
+
+**JSON Payload (Slot Occupancy)**:
+```json
+{
+  "camera_code": "A_CAR_01",
+  "floor": "A",
+  "detections": [
+    {
+      "slot_code": "A-C-01",
+      "occupied": true,
+      "plate_number": "TN09AB1234"
+    },
+    {
+      "slot_code": "A-C-02",
+      "occupied": false,
+      "plate_number": null
+    }
+  ],
+  "captured_at": "2025-12-12T03:58:10Z"
+}
+```
+
+### 3️⃣ Vehicle Exit
+
+```
+Exit Camera → Plate Recognition → Ticket Lookup
+                                        ↓
+                            Duration Calculation
+                                        ↓
+                              Billing & Payment
+                                        ↓
+                             Toll Gate Opens
+```
+
+---
+
+## 🗄 Database Schema
+
+### Core Tables
+
+#### `floors`
 ```sql
--- Create database and user
-CREATE DATABASE mall_parking_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'parking_user'@'localhost' IDENTIFIED BY 'parking_password_123';
-GRANT ALL PRIVILEGES ON mall_parking_db.* TO 'parking_user'@'localhost';
-FLUSH PRIVILEGES;
+CREATE TABLE floors (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(10) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
-### **2. Backend Installation**
+#### `slots`
+```sql
+CREATE TABLE slots (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    floor_id INT NOT NULL,
+    slot_code VARCHAR(20) UNIQUE NOT NULL,
+    slot_type ENUM('CAR', 'BIKE') NOT NULL,
+    status ENUM('FREE', 'OCCUPIED', 'RESERVED', 'DISABLED') DEFAULT 'FREE',
+    current_plate VARCHAR(20) NULL,
+    last_updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (floor_id) REFERENCES floors(id)
+);
+```
+
+#### `cameras`
+```sql
+CREATE TABLE cameras (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    camera_code VARCHAR(20) UNIQUE NOT NULL,
+    role ENUM('ENTRY', 'EXIT', 'INDOOR') NOT NULL,
+    floor_id INT NULL,
+    rtsp_url VARCHAR(255) NOT NULL,
+    description VARCHAR(100),
+    FOREIGN KEY (floor_id) REFERENCES floors(id)
+);
+```
+
+#### `tickets`
+```sql
+CREATE TABLE tickets (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    plate_number VARCHAR(20) NOT NULL,
+    vehicle_type ENUM('CAR', 'BIKE') NOT NULL,
+    slot_id INT NOT NULL,
+    entry_time DATETIME NOT NULL,
+    exit_time DATETIME NULL,
+    status ENUM('ACTIVE', 'CLOSED', 'CANCELLED') DEFAULT 'ACTIVE',
+    amount_paid DECIMAL(10,2) NULL,
+    FOREIGN KEY (slot_id) REFERENCES slots(id)
+);
+```
+
+#### `events_log`
+```sql
+CREATE TABLE events_log (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    ticket_id BIGINT NULL,
+    camera_id INT NOT NULL,
+    event_type ENUM('ENTRY_DETECTED', 'EXIT_DETECTED', 'SLOT_OCCUPIED', 'SLOT_FREED') NOT NULL,
+    payload_json JSON,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ticket_id) REFERENCES tickets(id),
+    FOREIGN KEY (camera_id) REFERENCES cameras(id)
+);
+```
+
+---
+
+## 📁 Project Structure
+
+### Backend (FastAPI + MySQL)
+
+```
+parking-backend/
+├── app/
+│   ├── __init__.py
+│   ├── main.py                 # FastAPI entrypoint
+│   ├── core/
+│   │   ├── config.py           # Settings & DB URL
+│   │   └── database.py         # DB engine & session
+│   ├── models/                 # SQLAlchemy models
+│   │   ├── floor.py
+│   │   ├── slot.py
+│   │   ├── camera.py
+│   │   ├── ticket.py
+│   │   └── event_log.py
+│   ├── schemas/                # Pydantic schemas
+│   │   ├── ticket.py
+│   │   ├── slot.py
+│   │   └── entry_event.py
+│   ├── services/
+│   │   └── allocation_service.py
+│   └── routers/
+│       └── v1/
+│           ├── entry.py        # POST /api/v1/entry-events
+│           ├── occupancy.py    # POST /api/v1/slot-occupancy
+│           ├── slots.py        # GET /api/v1/slots
+│           └── health.py
+├── alembic/                    # DB migrations
+├── requirements.txt
+└── .env
+```
+
+### CV Service (Python + YOLOv8)
+
+```
+parking-cv-service/
+├── src/
+│   ├── config.py               # Camera URLs, backend URL
+│   ├── models/
+│   │   ├── vehicle_detector.py
+│   │   ├── plate_detector.py
+│   │   └── plate_ocr.py
+│   ├── pipelines/
+│   │   ├── entry_pipeline.py
+│   │   └── indoor_pipeline.py
+│   ├── clients/
+│   │   └── backend_client.py
+│   ├── main_entry.py
+│   └── main_indoor.py
+├── requirements.txt
+└── README.md
+```
+
+### Dashboard (React + TypeScript)
+
+```
+parking-dashboard/
+├── src/
+│   ├── components/
+│   │   ├── SlotGrid.tsx
+│   │   ├── CameraFeed.tsx
+│   │   └── RevenueChart.tsx
+│   ├── pages/
+│   │   ├── Dashboard.tsx
+│   │   └── Reports.tsx
+│   ├── services/
+│   │   └── api.ts
+│   ├── App.tsx
+│   └── main.tsx
+├── package.json
+└── vite.config.ts
+```
+
+---
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+
+- Python 3.8+
+- Node.js 16+
+- MySQL 8.0+
+- Docker (optional)
+- GPU with CUDA (recommended for CV service)
+
+### Backend Setup
+
 ```bash
-# Navigate to backend directory
+# Clone repository
+git clone <repo-url>
 cd parking-backend
 
 # Create virtual environment
 python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Activate virtual environment
-# Windows:
-venv\\Scripts\\activate
-# macOS/Linux:
+# Install dependencies
+pip install -r requirements.txt
+
+# Setup database
+# Create .env file with DB credentials
+echo "DATABASE_URL=mysql://user:pass@localhost/parking_db" > .env
+
+# Run migrations
+alembic upgrade head
+
+# Seed initial data
+python scripts/seed_data.py
+
+# Start server
+uvicorn app.main:app --reload --port 8000
+```
+
+### CV Service Setup
+
+```bash
+cd parking-cv-service
+
+# Create virtual environment
+python -m venv venv
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Set environment variables
-# Windows:
-set DATABASE_URL=mysql://parking_user:parking_password_123@localhost:3306/mall_parking_db
-# macOS/Linux:
-export DATABASE_URL=mysql://parking_user:parking_password_123@localhost:3306/mall_parking_db
+# Download YOLOv8 models
+python -c "from ultralytics import YOLO; YOLO('yolov8n.pt')"
 
-# Initialize database with mall layout
-python app/init_db.py
+# Configure cameras in src/config.py
+# Update RTSP URLs and backend API endpoint
 
-# Start FastAPI server
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+# Start entry pipeline
+python src/main_entry.py
+
+# Start indoor monitoring (separate terminal)
+python src/main_indoor.py
 ```
 
-### **3. Frontend Setup**
+### Dashboard Setup
+
 ```bash
-# Navigate to dashboard directory  
-cd dashboard
+cd parking-dashboard
 
 # Install dependencies
 npm install
 
-# Set API endpoint (optional - defaults to localhost:8000)
-# Create .env file:
-echo "REACT_APP_API_URL=http://localhost:8000/api/v1" > .env
+# Configure API endpoint in .env
+echo "VITE_API_URL=http://localhost:8000" > .env
 
 # Start development server
-npm start
+npm run dev
 ```
 
-### **4. Camera Configuration**
-```python
-# Update camera RTSP URLs in app/cv/camera_manager.py
-camera_configs = {
-    1: {"rtsp_url": "rtsp://192.168.1.100:554/entry", "role": "ENTRY"},
-    2: {"rtsp_url": "rtsp://192.168.1.101:554/exit", "role": "EXIT"},
-    # Add your camera URLs...
+---
+
+## 🔌 API Endpoints
+
+### Entry Management
+
+```http
+POST /api/v1/entry-events
+Content-Type: application/json
+
+{
+  "camera_code": "ENTRY_1",
+  "plate_number": "TN09AB1234",
+  "vehicle_type": "CAR",
+  "confidence": 0.93,
+  "captured_at": "2025-12-12T03:58:00Z"
 }
 ```
 
-## 📡 API Endpoints
-
-### **Parking Management**
-```bash
-GET    /api/v1/parking-availability     # Get real-time parking status
-GET    /api/v1/slots                   # List all parking slots
-GET    /api/v1/slots/available         # Get available slots
-POST   /api/v1/entry-events            # Create entry event
-POST   /api/v1/exit-events/{ticket_id} # Process vehicle exit
+**Response:**
+```json
+{
+  "ticket_id": 12345,
+  "slot_assigned": "A-C-05",
+  "entry_time": "2025-12-12T03:58:00Z",
+  "message": "Gate opened"
+}
 ```
 
-### **Computer Vision Integration**
-```bash
-POST   /api/v1/cv-entry-detection      # CV system entry detection callback
-GET    /api/v1/system-status           # Get CV system status
-GET    /api/v1/health/detailed         # Detailed system health
+### Slot Occupancy
+
+```http
+POST /api/v1/slot-occupancy
+Content-Type: application/json
+
+{
+  "camera_code": "A_CAR_01",
+  "floor": "A",
+  "detections": [...]
+}
 ```
 
-### **Analytics & Monitoring**
-```bash
-GET    /api/v1/entry-events           # Get entry history
-GET    /api/v1/slots/floor/{floor_id} # Get floor-specific slots
-GET    /api/v1/health                 # Basic health check
+### Get Slots
+
+```http
+GET /api/v1/slots?floor=A&status=OCCUPIED
 ```
 
-## 🎛️ Dashboard Usage
+### Exit Vehicle
 
-### **Main Dashboard**
-- **Overview**: Real-time parking statistics and system status
-- **Quick Stats**: Available slots by vehicle type and floor
-- **Recent Activity**: Latest vehicle entries and exits
-- **System Status**: Computer vision system health
+```http
+POST /api/v1/exit-events
+Content-Type: application/json
 
-### **Floor Views**
-- **Interactive Slot Map**: Visual representation of all parking slots
-- **Real-time Updates**: Color-coded slot status (Available/Occupied/Reserved)
-- **Occupancy Metrics**: Floor utilization rates and trends
-- **Camera Status**: Monitor indoor cameras for each floor
-
-### **Camera Monitoring**
-- **Live Status**: Monitor all 16 cameras in real-time
-- **Role-based Groups**: Entry, Exit, and Indoor camera sections
-- **Configuration**: Manage RTSP URLs and detection settings
-- **Performance Metrics**: Detection rates and system stats
-
-### **Vehicle Tracking**
-- **Search & Filter**: Find vehicles by license plate, type, or status
-- **Duration Tracking**: Monitor parking time and violations
-- **Exit Processing**: Manual exit processing if needed
-- **History**: View entry/exit patterns and statistics
-
-### **Analytics**
-- **Hourly Trends**: Entry/exit patterns throughout the day
-- **Daily Summary**: Historical data and peak usage times
-- **Floor Distribution**: Occupancy by floor and vehicle type
-- **Performance Metrics**: System accuracy and processing speed
-
-### **Settings**
-- **Computer Vision**: Adjust detection confidence and processing parameters
-- **System Rules**: Configure parking duration limits and policies
-- **Notifications**: Set up email and SMS alerts
-- **Backup**: Configure automated data backup schedules
-
-## 🔍 Computer Vision Pipeline
-
-### **1. Vehicle Detection (YOLOv8)**
-```python
-# Detects cars and bikes in camera feed
-detected_vehicles = detector.detect_vehicles(frame)
-# Returns: [{'bbox': [x1,y1,x2,y2], 'confidence': 0.85, 'class': 'car'}]
+{
+  "camera_code": "EXIT_1",
+  "plate_number": "TN09AB1234"
+}
 ```
 
-### **2. License Plate Recognition (EasyOCR)**
-```python
-# Extracts license plate text from vehicle region
-plate_text = recognizer.recognize_plate(vehicle_crop)
-# Returns: {'text': 'ABC1234', 'confidence': 0.92}
-```
+---
 
-### **3. Slot Occupancy Detection**
-```python
-# Monitors predefined slot regions for occupancy
-occupancy_status = detector.check_slot_occupancy(frame, slot_regions)
-# Returns: {'slot_A01': True, 'slot_A02': False, ...}
-```
+## 🗺 Development Roadmap
 
-### **4. Smart Slot Assignment**
-```python
-# Automatically assigns optimal parking slot
-assigned_slot = assigner.assign_slot(vehicle_type='CAR', floor_preference='A')
-# Returns: Slot object with location details
-```
+### Phase 1 (v1) - MVP ✅
+- [x] Vehicle entry with plate + type detection
+- [x] Automatic slot assignment
+- [x] Indoor slot occupancy detection
+- [x] Database schema & backend API
+- [x] Basic receipt generation
 
-## 🧪 Testing & Deployment
+### Phase 2 (v2) - Advanced Features
+- [ ] Misparking detection + fine flag
+- [ ] Exit + billing based on time
+- [ ] Payment gateway integration
+- [ ] Admin dashboard with occupancy view
+- [ ] Live camera feed integration
 
-### **Quick Testing**
-```bash
-# Test backend API
-curl http://localhost:8000/api/v1/health
+### Phase 3 (v3) - Analytics & Optimization
+- [ ] Revenue analytics & reports
+- [ ] Historical data visualization
+- [ ] Performance optimization
+- [ ] Multi-tenancy support
 
-# Test CV system readiness
-python -c "from app.cv.detector import VehicleDetector; print('CV system ready')"
+### Phase 4 (v4) - AI Enhancements
+- [ ] Traffic pattern forecasting
+- [ ] Peak hour prediction
+- [ ] Dynamic pricing
+- [ ] Vehicle behavior analysis
 
-# Test database connection
-python app/init_db.py
-```
+---
 
-### **Production Deployment**
-```bash
-# Backend with Docker
-docker build -t mall-parking-backend .
-docker run -p 8000:8000 mall-parking-backend
+## 📊 Expected Accuracy
 
-# Frontend build
-cd dashboard && npm run build
-# Deploy build/ directory to web server
-```
+| Task | Expected Accuracy |
+|------|-------------------|
+| Vehicle Detection | 95–97% |
+| Vehicle Type Classification | 94–96% |
+| License Plate Detection | 96–98% |
+| OCR Reading | 90–95% |
+| Slot Occupancy | 96–99% |
 
-## 📊 System Performance
+### Performance Characteristics
 
-### **Computer Vision Metrics**
-- **Detection Speed**: ~2.3 seconds per frame (GPU enabled)
-- **Accuracy**: 98.5% vehicle detection, 95% license plate recognition
-- **Throughput**: Processes 16 camera feeds at 5 FPS each
-- **Resource Usage**: ~4GB RAM, 60% GPU utilization
+- **Processing Speed**: 15-30 FPS (YOLOv8n)
+- **Latency**: < 200ms per frame
+- **Concurrent Cameras**: 10+ streams
+- **Database Response**: < 50ms
 
-### **System Capacity**
-- **Concurrent Users**: 50+ dashboard users
-- **Database**: Handles 10,000+ parking events per day
-- **API Response**: <200ms average response time
-- **Real-time Updates**: 3-5 second refresh intervals
+---
 
-## 🛠️ Troubleshooting
+## 🤝 Contributing
 
-### **Common Issues**
+Contributions are welcome! Please follow these steps:
 
-**1. CV Model Download Issues**
-```bash
-# Manually download YOLO model
-python -c "from ultralytics import YOLO; YOLO('yolov8n.pt')"
-```
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-**2. Database Connection**
-```bash
-# Check MySQL service and test connection
-mysql -h localhost -u parking_user -p mall_parking_db
-```
+### Code Style
 
-**3. Camera Connection**
-```python
-# Test RTSP stream
-import cv2
-cap = cv2.VideoCapture('rtsp://camera-ip:554/stream')
-print("Camera connected:", cap.isOpened())
-```
+- **Python**: Follow PEP 8, use `black` formatter
+- **TypeScript**: ESLint + Prettier
+- **Commits**: Conventional Commits format
 
-**4. High Resource Usage**
-- Reduce `processing_fps` in CV config
-- Lower detection confidence thresholds
-- Enable GPU acceleration if available
+---
 
-## 🎯 Project Status
+## 📝 License
 
-✅ **Backend Development**: Complete  
-✅ **Computer Vision Pipeline**: Complete  
-✅ **Database Schema**: Complete  
-✅ **API Endpoints**: Complete  
-✅ **React Dashboard**: Complete  
-✅ **Real-time Monitoring**: Complete  
-✅ **Documentation**: Complete  
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-**System Ready for Testing and Deployment! 🚀**
+---
 
-## 📄 License
+## 👥 Team
 
-This project is licensed under the MIT License.
+- **Project Lead**: [Your Name]
+- **CV Engineer**: [Name]
+- **Backend Developer**: [Name]
+- **Frontend Developer**: [Name]
+
+---
+
+## 📞 Contact
+
+For questions or support:
+- Email: support@parkingsystem.com
+- Issues: [GitHub Issues](https://github.com/yourrepo/issues)
+
+---
 
 ## 🙏 Acknowledgments
 
-- **YOLOv8**: Ultralytics for state-of-the-art object detection
-- **EasyOCR**: JaidedAI for robust license plate recognition
-- **FastAPI**: For high-performance async API framework
-- **React**: For responsive and interactive dashboard
-- **Material-UI**: For professional UI components
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [EasyOCR](https://github.com/JaidedAI/EasyOCR)
+- [Material-UI](https://mui.com/)
 
-For support or questions, please create an issue in the repository.#   v i s u a l - p a r k i n g  
- 
+---
+
+**Built with ❤️ for smarter parking solutions**
