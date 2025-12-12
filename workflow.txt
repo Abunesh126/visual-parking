@@ -1,0 +1,335 @@
+The project idea focuses on developing an Automatic Mall Car Parking System based on computer vision technology. The system automates the entire parking management process — from vehicle entry to exit — while providing real-time insights to the mall administration.
+Process Overview:
+Inputs: Cameras are installed at the entrance, exit, and inside the parking area, along with automated toll gates.
+Vehicle Entry: When a vehicle arrives at the mall entrance, the camera detects its type and number plate. Based on the detection, the system generates a parking token receipt containing the allocated parking slot number. The toll gate opens automatically once the receipt is issued, and the driver can proceed to park.
+Slot Monitoring: If the vehicle is not parked in the assigned slot, cameras inside the parking area detect the occupied space and reassign slot data accordingly. The system can also identify misparked vehicles using license plate recognition and impose fines if necessary.
+Admin Dashboard: The admin dashboard provides full control and monitoring, including camera feeds, parking slot occupancy, vehicle data, and revenue tracking (based on time parked).
+Vehicle Exit: At the exit point, another camera verifies the vehicle's number plate and calculates the total parking duration. After the payment is made for the time spent, the toll gate opens automatically, completing the parking process.
+Outcome:
+A fully automated parking management system that issues digital parking receipts, monitors parking slots using computer vision, handles billing and fines, and provides a real-time dashboard for management and revenue analysis.
+Summary
+An AI-powered automatic parking system for malls that uses computer vision to detect vehicles, assign slots, generate entry/exit receipts, monitor occupancy, manage fines, and automate payment through a connected admin dashboard.
+
+
+Objectives list
+From the image, the camera-based vehicle analytics objectives are:
+
+Detect vehicles
+
+Track each vehicle
+
+Display insights in a clean dashboard
+
+Identify vehicle type
+
+Measure wait time (dwell time)
+
+(Optional) Forecast future traffic patterns.​
+
+How your project matches
+Detect vehicles – Entrance/exit/indoor cameras detect vehicles and occupied slots using computer vision and license plate recognition. This directly covers vehicle detection.​
+
+Track each vehicle – The system follows a vehicle from entry to exit using license plate recognition and timestamps, which is effectively per-vehicle tracking over time.​
+
+Display insights in a clean dashboard – The admin dashboard with camera feeds, occupancy, vehicle data, and revenue tracking clearly aligns with the dashboard/insights objective.​
+
+Identify vehicle type – At entry, the camera detects the vehicle type before assigning a slot, satisfying this objective.​
+
+Measure wait time (dwell time) – The system computes parking duration from entry and exit times for billing, which is the dwell time per vehicle.​
+
+(Optional) Forecast future traffic patterns – Your description does not mention any predictive or forecasting module (e.g., using historical occupancy to predict peak hours), so this objective is not yet satisfied.​
+
+Result
+Satisfied objectives: 1, 2, 3, 4, 5
+
+High-level implementation plan:
+
+Define system modules
+
+CV module: vehicle detection, vehicle-type classification, license-plate recognition, parking-slot occupancy detection.​
+
+Backend & DB: APIs for vehicle entry/exit, slot assignment, billing, fines, and analytics storage.​
+
+Admin dashboard: real-time view of slots, cameras, vehicles, and revenue analytics.​
+
+Build the computer-vision pipeline
+
+Use YOLOv8/YOLOv9 or similar for detecting vehicles and classifying type from camera frames at entrance/exit and lot.​
+
+Use an ANPR/LPR model (e.g., OpenALPR or custom Tesseract+OCR) to read license plates from cropped images.​
+
+For parking slots, predefine ROIs for each slot and mark them occupied when a vehicle bounding box overlaps that ROI for several frames.​
+
+Integrate with backend logic
+
+On entry event:
+
+Detect vehicle and plate, check if a free slot exists, allocate a slot and create a ticket with entry time, slot, plate, and vehicle type.​
+
+Open gate via IoT relay or barrier controller API.​
+
+Slot monitoring:
+
+Periodically run occupancy detection for all slots, update DB, and flag mismatches (vehicle not in assigned slot or slot taken without ticket).​
+
+On exit event:
+
+Detect plate, fetch ticket, compute duration and price, process payment (mock or real), then trigger gate open and close ticket.​
+
+Develop admin dashboard
+
+Show total capacity, occupied/free slots, revenue today, average dwell time, and list of current vehicles.​
+
+Provide views per floor/zone with a simple 2D map where each slot is color coded (free, occupied, misparked, reserved).​
+
+Optional forecasting module
+
+Store historical occupancy and entry/exit times, then train a simple time-series model (Prophet, ARIMA, or LSTM) to predict peak hours and expected occupancy.​
+
+2. Suggested tech stack
+Given your background (full-stack, Python, JS), this stack is realistic:
+
+Computer vision & AI
+
+Python, OpenCV, PyTorch or TensorFlow for training/inference.​
+
+YOLOv8/YOLOv9 (via Ultralytics) for vehicle detection and classification.​
+
+OpenALPR or custom ANPR using EasyOCR/Tesseract for license plates.​
+
+Backend & services
+
+FastAPI or Django REST Framework (Python) for REST APIs.​
+
+PostgreSQL or MySQL for structured data (tickets, slots, users, payments).​
+
+Redis for caching active tickets/slots if you want scalability.​
+
+MQTT or HTTP-based interface to gate controller/IoT devices.​
+
+Dashboard & frontend
+
+React or Next.js for SPA/SSR dashboard.​
+
+Component libs like MUI/Ant Design for tables, charts, and layout.​
+
+Charting: Recharts, Chart.js, or ECharts for occupancy and revenue graphs.​
+
+Deployment & infra
+
+Separate CV worker service (Docker container) that subscribes to RTSP camera streams and calls backend APIs.​
+
+Cloud or on-prem server with GPU (optional) for real-time inference, Nginx or Traefik as reverse proxy.​
+
+3. Detailed process flow
+Entry to ticket generation
+Camera stream from entry gate is consumed by CV service.​
+
+When a vehicle is detected in a predefined entry ROI, capture several frames, run:
+
+Vehicle detection + classification (car/bike/SUV/etc.).
+
+ANPR to read license plate with confidence filtering.​
+
+CV service calls backend API /entry with {plate, vehicle_type, snapshot_time}.​
+
+Backend:
+
+Finds nearest free slot based on configuration (floor preference, EV slots, etc.).
+
+Creates Ticket {id, plate, vehicle_type, slot_id, entry_time} and returns token or QR code.​
+
+Backend notifies gate controller to open; dashboard shows new active vehicle and updated free/occupied counts.​
+
+Slot monitoring and misparking
+Indoor cameras cover groups of slots; for each camera, you define ROIs per slot in a config file.​
+
+CV service continuously detects vehicles in each frame; if a bounding box overlaps ROI for a threshold time, set that slot as occupied by that plate (from local tracking or last seen nearby).​
+
+Backend updates slot table, reconciles with assigned ticket:
+
+If occupied slot has no matching ticket → “unknown vehicle” flag.
+
+If ticketed vehicle is in different slot than assigned → mark mispark and compute fine rule.​
+
+Exit and billing
+Exit camera detects vehicle and reads plate similarly to entry.​
+
+Backend /exit API:
+
+Looks up active ticket by plate.
+
+Computes duration = exit_time - entry_time, applies tariff (e.g., base + per-hour).​
+
+Generates bill; after payment confirmation (mock: “paid” button; real: Razorpay/Stripe), closes ticket and logs transaction.​
+
+Gate controller opens barrier; dashboard updates revenue and occupancy metrics.​
+
+Analytics and forecasting (optional)
+Batch job aggregates:
+
+Hourly entries/exits, average dwell time by day, utilization per slot/floor, revenue stats.​
+
+Train a simple time-series model over hourly occupancy to predict next-day peak times and show “expected occupancy” curves in dashboard
+
+
+Step 1 – Fix scope and architecture
+Answer these briefly so the rest of the design fits you:
+
+Environment choices
+
+Backend: FastAPI or Django REST?
+
+Database: PostgreSQL or MySQL?
+
+Dashboard: React or Next.js?
+
+CV framework: PyTorch + YOLOv8 (Ultralytics) OK?
+
+Parking lot assumptions (for now)
+
+Total slots (e.g., 50).
+
+Number of cameras:
+
+1 entry, 1 exit, how many inside (e.g., 2 covering all slots)?
+
+Vehicle types to support (car, bike, SUV only?).
+
+Feature scope for first version (MVP)
+Tick what you want in v1 (we can add the rest later):
+
+ Vehicle entry with plate + type detection.
+
+ Automatic slot assignment.
+
+ Indoor slot occupancy detection.
+
+ Misparking detection + fine flag.
+
+ Exit + billing based on time.
+
+ Simple admin dashboard with occupancy + list of active vehicles.
+
+Reply with your choices; then the next step will be:
+
+Design the database schema (tables and fields).
+
+Design the service architecture diagram in text (who talks to whom).
+
+After that, we move to coding: project folder structure and initial FastAPI/React skeletons.
+
+Environment choices
+Backend: FastAPI,Database:MySQL,Dashboard: React(js or tsx),CV framework: PyTorch + YOLOv8 (Ultralytics) OK
+Parking lot assumptions (for now):
+Total slots (floor A 20-car slot ,16-bike slot.floor B 20-car slot ,16-bike slots)
+Number of cameras:
+1 entry, 1 exit,
+inside in a floor every 4 carslot have one camera (10 camera for car) ,every 8 bike have one camera (4 camera)
+Vehicle types to support (car, bike )only
+Feature scope for first version (MVP) basic level of 4 in {v1 -(Vehicle entry with plate + type detection.
+ Automatic slot assignment.
+ Indoor slot occupancy detection.)}{v2-( Misparking detection + fine flag.)}{v3-(Exit + billing based on time.)}{v4-( Simple admin dashboard with occupancy + list of active vehicles.)}
+
+Step 2 – Database schema (for v1)
+Here is a minimal MySQL schema tailored to your assumptions.​
+
+Core tables
+floors
+
+id (PK, int)
+
+name (varchar) – e.g., "A", "B"
+
+created_at (datetime)
+
+slots
+
+id (PK)
+
+floor_id (FK → floors.id)
+
+slot_code (varchar) – e.g., "A-C-01", "B-B-05"
+
+slot_type (enum: CAR, BIKE)
+
+status (enum: FREE, OCCUPIED, RESERVED, DISABLED)
+
+current_plate (varchar, nullable)
+
+last_updated (datetime)
+
+cameras
+
+id (PK)
+
+camera_code (varchar) – e.g., "ENTRY_1", "A_CAR_01"
+
+role (enum: ENTRY, EXIT, INDOOR)
+
+floor_id (nullable FK for indoor cameras)
+
+rtsp_url (varchar)
+
+description (varchar)
+
+tickets
+
+id (PK, bigint)
+
+plate_number (varchar)
+
+vehicle_type (enum: CAR, BIKE)
+
+slot_id (FK → slots.id)
+
+entry_time (datetime)
+
+exit_time (datetime, nullable – used later for v3)
+
+status (enum: ACTIVE, CLOSED, CANCELLED)
+
+events_log (for debugging / analytics later)
+
+id (PK)
+
+ticket_id (nullable FK)
+
+camera_id (FK)
+
+event_type (enum: ENTRY_DETECTED, EXIT_DETECTED, SLOT_OCCUPIED, SLOT_FREED)
+
+payload_json (json)
+
+created_at (datetime)
+
+This is enough for v1; later we will add fines, payments, users, etc.​
+
+Step 3 – Service architecture
+At v1, keep three main components.​
+
+CV Service (Python + PyTorch + YOLOv8)
+
+Connects to each cameras.rtsp_url.
+
+For ENTRY camera:
+
+Detects vehicle + plate, calls backend POST /api/v1/entry-events.
+
+For INDOOR cameras:
+
+Detects vehicles and maps them to slot ROIs, calls backend POST /api/v1/slot-occupancy.
+
+Backend API (FastAPI + SQLAlchemy + MySQL)
+
+Exposes REST endpoints:
+
+POST /api/v1/entry-events → create ticket, assign free slot, respond with ticket info.
+
+POST /api/v1/slot-occupancy → update slots.status and current_plate.
+
+GET /api/v1/slots → list slots and status (for dashboard later).
+
+Manages DB, business rules, and future billing/fines.​
+
+Dashboard (React) – later in v4

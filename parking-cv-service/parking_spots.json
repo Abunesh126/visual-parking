@@ -1,0 +1,183 @@
+{
+  "description": "Parking spot configuration for mall parking system",
+  "total_spots": 72,
+  "floors": [
+    {
+      "floor_id": "A",
+      "floor_name": "Floor A",
+      "total_car_slots": 20,
+      "total_bike_slots": 16
+    },
+    {
+      "floor_id": "B",
+      "floor_name": "Floor B",
+      "total_car_slots": 20,
+      "total_bike_slots": 16
+    }
+  ],
+  "cameras": [
+    {
+      "camera_id": "FLOOR_A_CAR_CAM_1",
+      "floor": "A",
+      "type": "car",
+      "monitors_spots": ["A-C-01", "A-C-02", "A-C-03", "A-C-04"]
+    },
+    {
+      "camera_id": "FLOOR_A_CAR_CAM_2",
+      "floor": "A",
+      "type": "car",
+      "monitors_spots": ["A-C-05", "A-C-06", "A-C-07", "A-C-08"]
+    },
+    {
+      "camera_id": "FLOOR_A_CAR_CAM_3",
+      "floor": "A",
+      "type": "car",
+      "monitors_spots": ["A-C-09", "A-C-10", "A-C-11", "A-C-12"]
+    },
+    {
+      "camera_id": "FLOOR_A_CAR_CAM_4",
+      "floor": "A",
+      "type": "car",
+      "monitors_spots": ["A-C-13", "A-C-14", "A-C-15", "A-C-16"]
+    },
+    {
+      "camera_id": "FLOOR_A_CAR_CAM_5",
+      "floor": "A",
+      "type": "car",
+      "monitors_spots": ["A-C-17", "A-C-18", "A-C-19", "A-C-20"]
+    },
+    {
+      "camera_id": "FLOOR_A_BIKE_CAM_1",
+      "floor": "A",
+      "type": "bike",
+      "monitors_spots": ["A-B-01", "A-B-02", "A-B-03", "A-B-04", "A-B-05", "A-B-06", "A-B-07", "A-B-08"]
+    },
+    {
+      "camera_id": "FLOOR_A_BIKE_CAM_2",
+      "floor": "A",
+      "type": "bike",
+      "monitors_spots": ["A-B-09", "A-B-10", "A-B-11", "A-B-12", "A-B-13", "A-B-14", "A-B-15", "A-B-16"]
+    },
+    {
+      "camera_id": "FLOOR_B_CAR_CAM_1",
+      "floor": "B",
+      "type": "car",
+      "monitors_spots": ["B-C-01", "B-C-02", "B-C-03", "B-C-04"]
+    },
+    {
+      "camera_id": "FLOOR_B_CAR_CAM_2",
+      "floor": "B",
+      "type": "car",
+      "monitors_spots": ["B-C-05", "B-C-06", "B-C-07", "B-C-08"]
+    },
+    {
+      "camera_id": "FLOOR_B_CAR_CAM_3",
+      "floor": "B",
+      "type": "car",
+      "monitors_spots": ["B-C-09", "B-C-10", "B-C-11", "B-C-12"]
+    },
+    {
+      "camera_id": "FLOOR_B_CAR_CAM_4",
+      "floor": "B",
+      "type": "car",
+      "monitors_spots": ["B-C-13", "B-C-14", "B-C-15", "B-C-16"]
+    },
+    {
+      "camera_id": "FLOOR_B_CAR_CAM_5",
+      "floor": "B",
+      "type": "car",
+      "monitors_spots": ["B-C-17", "B-C-18", "B-C-19", "B-C-20"]
+    },
+    {
+      "camera_id": "FLOOR_B_BIKE_CAM_1",
+      "floor": "B",
+      "type": "bike",
+      "monitors_spots": ["B-B-01", "B-B-02", "B-B-03", "B-B-04", "B-B-05", "B-B-06", "B-B-07", "B-B-08"]
+    },
+    {
+      "camera_id": "FLOOR_B_BIKE_CAM_2",
+      "floor": "B",
+      "type": "bike",
+      "monitors_spots": ["B-B-09", "B-B-10", "B-B-11", "B-B-12", "B-B-13", "B-B-14", "B-B-15", "B-B-16"]
+    }
+  ],
+  "parking_spots": [
+    {"id": "A-C-01", "floor": "A", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_A_CAR_CAM_1"},
+    {"id": "A-C-02", "floor": "A", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_A_CAR_CAM_1"},
+    {"id": "A-C-03", "floor": "A", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_A_CAR_CAM_1"},
+    {"id": "A-C-04", "floor": "A", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_A_CAR_CAM_1"},
+    {"id": "A-C-05", "floor": "A", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_A_CAR_CAM_2"},
+    {"id": "A-C-06", "floor": "A", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_A_CAR_CAM_2"},
+    {"id": "A-C-07", "floor": "A", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_A_CAR_CAM_2"},
+    {"id": "A-C-08", "floor": "A", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_A_CAR_CAM_2"},
+    {"id": "A-C-09", "floor": "A", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_A_CAR_CAM_3"},
+    {"id": "A-C-10", "floor": "A", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_A_CAR_CAM_3"},
+    {"id": "A-C-11", "floor": "A", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_A_CAR_CAM_3"},
+    {"id": "A-C-12", "floor": "A", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_A_CAR_CAM_3"},
+    {"id": "A-C-13", "floor": "A", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_A_CAR_CAM_4"},
+    {"id": "A-C-14", "floor": "A", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_A_CAR_CAM_4"},
+    {"id": "A-C-15", "floor": "A", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_A_CAR_CAM_4"},
+    {"id": "A-C-16", "floor": "A", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_A_CAR_CAM_4"},
+    {"id": "A-C-17", "floor": "A", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_A_CAR_CAM_5"},
+    {"id": "A-C-18", "floor": "A", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_A_CAR_CAM_5"},
+    {"id": "A-C-19", "floor": "A", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_A_CAR_CAM_5"},
+    {"id": "A-C-20", "floor": "A", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_A_CAR_CAM_5"},
+    {"id": "A-B-01", "floor": "A", "type": "bike", "bbox": [100, 150, 180, 250], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-02", "floor": "A", "type": "bike", "bbox": [200, 150, 280, 250], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-03", "floor": "A", "type": "bike", "bbox": [300, 150, 380, 250], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-04", "floor": "A", "type": "bike", "bbox": [400, 150, 480, 250], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-05", "floor": "A", "type": "bike", "bbox": [500, 150, 580, 250], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-06", "floor": "A", "type": "bike", "bbox": [100, 280, 180, 380], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-07", "floor": "A", "type": "bike", "bbox": [200, 280, 280, 380], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-08", "floor": "A", "type": "bike", "bbox": [300, 280, 380, 380], "camera": "FLOOR_A_BIKE_CAM_1"},
+    {"id": "A-B-09", "floor": "A", "type": "bike", "bbox": [100, 150, 180, 250], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "A-B-10", "floor": "A", "type": "bike", "bbox": [200, 150, 280, 250], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "A-B-11", "floor": "A", "type": "bike", "bbox": [300, 150, 380, 250], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "A-B-12", "floor": "A", "type": "bike", "bbox": [400, 150, 480, 250], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "A-B-13", "floor": "A", "type": "bike", "bbox": [500, 150, 580, 250], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "A-B-14", "floor": "A", "type": "bike", "bbox": [100, 280, 180, 380], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "A-B-15", "floor": "A", "type": "bike", "bbox": [200, 280, 280, 380], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "A-B-16", "floor": "A", "type": "bike", "bbox": [300, 280, 380, 380], "camera": "FLOOR_A_BIKE_CAM_2"},
+    {"id": "B-C-01", "floor": "B", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_B_CAR_CAM_1"},
+    {"id": "B-C-02", "floor": "B", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_B_CAR_CAM_1"},
+    {"id": "B-C-03", "floor": "B", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_B_CAR_CAM_1"},
+    {"id": "B-C-04", "floor": "B", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_B_CAR_CAM_1"},
+    {"id": "B-C-05", "floor": "B", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_B_CAR_CAM_2"},
+    {"id": "B-C-06", "floor": "B", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_B_CAR_CAM_2"},
+    {"id": "B-C-07", "floor": "B", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_B_CAR_CAM_2"},
+    {"id": "B-C-08", "floor": "B", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_B_CAR_CAM_2"},
+    {"id": "B-C-09", "floor": "B", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_B_CAR_CAM_3"},
+    {"id": "B-C-10", "floor": "B", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_B_CAR_CAM_3"},
+    {"id": "B-C-11", "floor": "B", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_B_CAR_CAM_3"},
+    {"id": "B-C-12", "floor": "B", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_B_CAR_CAM_3"},
+    {"id": "B-C-13", "floor": "B", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_B_CAR_CAM_4"},
+    {"id": "B-C-14", "floor": "B", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_B_CAR_CAM_4"},
+    {"id": "B-C-15", "floor": "B", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_B_CAR_CAM_4"},
+    {"id": "B-C-16", "floor": "B", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_B_CAR_CAM_4"},
+    {"id": "B-C-17", "floor": "B", "type": "car", "bbox": [100, 150, 250, 350], "camera": "FLOOR_B_CAR_CAM_5"},
+    {"id": "B-C-18", "floor": "B", "type": "car", "bbox": [270, 150, 420, 350], "camera": "FLOOR_B_CAR_CAM_5"},
+    {"id": "B-C-19", "floor": "B", "type": "car", "bbox": [440, 150, 590, 350], "camera": "FLOOR_B_CAR_CAM_5"},
+    {"id": "B-C-20", "floor": "B", "type": "car", "bbox": [610, 150, 760, 350], "camera": "FLOOR_B_CAR_CAM_5"},
+    {"id": "B-B-01", "floor": "B", "type": "bike", "bbox": [100, 150, 180, 250], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-02", "floor": "B", "type": "bike", "bbox": [200, 150, 280, 250], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-03", "floor": "B", "type": "bike", "bbox": [300, 150, 380, 250], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-04", "floor": "B", "type": "bike", "bbox": [400, 150, 480, 250], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-05", "floor": "B", "type": "bike", "bbox": [500, 150, 580, 250], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-06", "floor": "B", "type": "bike", "bbox": [100, 280, 180, 380], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-07", "floor": "B", "type": "bike", "bbox": [200, 280, 280, 380], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-08", "floor": "B", "type": "bike", "bbox": [300, 280, 380, 380], "camera": "FLOOR_B_BIKE_CAM_1"},
+    {"id": "B-B-09", "floor": "B", "type": "bike", "bbox": [100, 150, 180, 250], "camera": "FLOOR_B_BIKE_CAM_2"},
+    {"id": "B-B-10", "floor": "B", "type": "bike", "bbox": [200, 150, 280, 250], "camera": "FLOOR_B_BIKE_CAM_2"},
+    {"id": "B-B-11", "floor": "B", "type": "bike", "bbox": [300, 150, 380, 250], "camera": "FLOOR_B_BIKE_CAM_2"},
+    {"id": "B-B-12", "floor": "B", "type": "bike", "bbox": [400, 150, 480, 250], "camera": "FLOOR_B_BIKE_CAM_2"},
+    {"id": "B-B-13", "floor": "B", "type": "bike", "bbox": [500, 150, 580, 250], "camera": "FLOOR_B_BIKE_CAM_2"},
+    {"id": "B-B-14", "floor": "B", "type": "bike", "bbox": [100, 280, 180, 380], "camera": "FLOOR_B_BIKE_CAM_2"},
+    {"id": "B-B-15", "floor": "B", "type": "bike", "bbox": [200, 280, 280, 380], "camera": "FLOOR_B_BIKE_CAM_2"},
+    {"id": "B-B-16", "floor": "B", "type": "bike", "bbox": [300, 280, 380, 380], "camera": "FLOOR_B_BIKE_CAM_2"}
+  ],
+  "notes": [
+    "Bounding boxes [x1, y1, x2, y2] need to be calibrated for each camera view",
+    "Run calibration tool to set proper ROI for each parking spot",
+    "Coordinates are relative to camera frame (typically 1920x1080 or 1280x720)"
+  ]
+}
